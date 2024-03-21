@@ -15,8 +15,8 @@ hour = now.hour
 min = now.minute
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-chatroom_name = '2024 송천고 3학년 6반'
-# chatroom_name = '김승환'
+# chatroom_name = '2024 송천고 3학년 6반'
+chatroom_name = '김승환'
 
 
 # # 채팅방에 메시지 전송
@@ -117,8 +117,10 @@ def main():
     time.sleep(5)
     sendtext(day_of_week,chatroom_name,year,month,day)    # 메시지 전송
 
-schedule.every().day.at("16:40").do(main)
+# schedule.every().day.at("16:40").do(main)
 
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(60)
+    
+main()
