@@ -73,7 +73,7 @@ def get_food():
     foodrelocationslpitstr = "급식"
 
     for i in range(len(datesplit)):
-        if ">29</td>" in datesplit[i] and ">금요일</td>" in datesplit[i]:
+        if f">{day}</td>" in datesplit[i] and ">금요일</td>" in datesplit[i]:
             foodsplit = datesplit[i].split("<p>")
             for j in range(len(foodsplit)):
                 if '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' in foodsplit[j]:
