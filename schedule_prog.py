@@ -68,44 +68,60 @@ def open_chatroom(chatroom_name):
 
 
 def get_food(month):
-    month = str(month).zfill(2)
-    URL = f'https://school.koreacharts.com/school/meals/B000012253/{year}{month}.html'
-    response = requests.get(URL)
-    response.raise_for_status()
+    try:
+        month = str(month).zfill(2)
+        URL = f'https://school.koreacharts.com/school/meals/B000012253/{year}{month}.html'
+        response = requests.get(URL)
+        response.raise_for_status()
 
-    soup = bs4.BeautifulSoup(response.text,"html.parser")
+        soup = bs4.BeautifulSoup(response.text,"html.parser")
 
-    nextday = now + timedelta(days=1)
+        if date == '월요일':
+            nextday = now + timedelta(days=3)
 
-    nextd = nextday.strftime("%d")
+            nextd = nextday.strftime("%d")
+        else:
+            nextday = now + timedelta(days=1)
 
-    text = soup.findAll('tr')
-    datesplit = str(text).split("</tr>")
-    foodrelocationslpitstr = "급식"
+            nextd = nextday.strftime("%d")
 
-    for i in range(len(datesplit)):
-        if f">{nextd}</td>" in datesplit[i] and f">{date}</td>" in datesplit[i]:
-            foodsplit = datesplit[i].split("<p>")
-            for j in range(len(foodsplit)):
-                if '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' in foodsplit[j]:
-                    foodrelocation = foodsplit[j].replace("\n","").replace("\t","").replace("<b>[중식]</b>","").replace("<br/>","").replace("&amp;","\n-").replace("<br>","\n").replace("</br></p></td>","")
-                    foodrelocationslpit = foodrelocation.split("-")
-                    for k in range(1,len(foodrelocationslpit)):
-                        foodrelocationslpit[k] = foodrelocationslpit[k].replace("\n","")
-                        foodrelocationslpitstr = f"{foodrelocationslpitstr}\n-{foodrelocationslpit[k]}"
 
-    return foodrelocationslpitstr
+
+
+        text = soup.findAll('tr')
+        datesplit = str(text).split("</tr>")
+        foodrelocationslpitstr = "급식"
+
+        for i in range(len(datesplit)):
+            if f">{nextd}</td>" in datesplit[i] and f">{date}</td>" in datesplit[i]:
+                foodsplit = datesplit[i].split("<p>")
+                for j in range(len(foodsplit)):
+                    if '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' in foodsplit[j]:
+                        foodrelocation = foodsplit[j].replace("\n","").replace("\t","").replace("<b>[중식]</b>","").replace("<br/>","").replace("&amp;","\n-").replace("<br>","\n").replace("</br></p></td>","")
+                        foodrelocationslpit = foodrelocation.split("-")
+                        for k in range(1,len(foodrelocationslpit)):
+                            foodrelocationslpit[k] = foodrelocationslpit[k].replace("\n","")
+                            foodrelocationslpitstr = f"{foodrelocationslpitstr}\n-{foodrelocationslpit[k]}"
+
+        return foodrelocationslpitstr
+    except:
+        foodrelocationslpitstr = "급식 오류"
+        return foodrelocationslpitstr
 
 def add_thing():
-    strline = ""
-    f = open("C:/Users/shkim/OneDrive - 인천광역시교육청/바탕 화면/2024반톡.txt", 'r', encoding='utf-8')
+    try:
+        strline = ""
+        f = open("C:/Users/shkim/OneDrive - 인천광역시교육청/바탕 화면/2024반톡.txt", 'r', encoding='utf-8')
 
-    while True:
-        line = f.readline()
-        if not line: break
-        strline += line
+        while True:
+            line = f.readline()
+            if not line: break
+            strline += line
 
-    return strline
+        return strline
+    except:
+        strline = "추가 공지사항 오류"
+        return strline
 
 
 def sendtext(day_of_week,chatroom_name,year,month,day):
@@ -140,7 +156,7 @@ def main():
     time.sleep(5)
     sendtext(day_of_week,chatroom_name,year,month,day)    # 메시지 전송
 
-schedule.every().day.at("16:40").do(main)
+# schedule.every().day.at("16:40").do(main)
 
 while True:
     schedule.run_pending()
