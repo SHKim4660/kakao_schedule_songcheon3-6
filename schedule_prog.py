@@ -158,8 +158,8 @@ def main():
 
 # schedule.every().day.at("16:40").do(main)
 
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(60)
     
-# main()
+main()
