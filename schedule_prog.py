@@ -156,10 +156,10 @@ def main():
     time.sleep(5)
     sendtext(day_of_week,chatroom_name,year,month,day)    # 메시지 전송
 
-# schedule.every().day.at("16:40").do(main)
+schedule.every().day.at("16:40").do(main)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(60)
+while weekday:
+    schedule.run_pending()
+    time.sleep(60)
     
-main()
+# main()
