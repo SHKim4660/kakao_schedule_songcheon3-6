@@ -14,14 +14,14 @@ month = now.month
 day = now.day
 hour = now.hour
 min = now.minute
-/
+
 weekday = True
 date = ""
 
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-chatroom_name = '2024 송천고 3학년 6반'
-# chatroom_name = '김승환'
+# chatroom_name = '2024 송천고 3학년 6반'
+chatroom_name = '김승환'
 
 
 # # 채팅방에 메시지 전송
@@ -59,7 +59,7 @@ def open_chatroom(chatroom_name):
     time.sleep(1)
 
 
-def get_food(year,month,date,now):
+def get_food(year,month,date):
     try:
         month = str(month).zfill(2)
         URL = f'https://school.koreacharts.com/school/meals/B000012253/{year}{month}.html'
@@ -76,9 +76,6 @@ def get_food(year,month,date,now):
             nextday = now + timedelta(days=1)
 
             nextd = nextday.strftime("%d")
-
-
-
 
         text = soup.findAll('tr')
         datesplit = str(text).split("</tr>")
@@ -129,7 +126,7 @@ def sendtext(day_of_week,chatroom_name,year,month,day,food,add):
         text = (f"{year}년 {month}월 {day}일 목요일\n\n금요일 시간표\n-------------\n-선택B\n-스포츠\n-확통\n-선택C\n-창체\n-창체\n-창체\n-------------\n{food}\n-------------\n{add}")
         kakao_sendtext(chatroom_name,text)
     elif day_of_week == 4:
-        text = (f"{year}년 {month}월 {day}일 금요일\n\n월요일 시간표\n-------------\n-역사b\n-미적\n-역사a\n-선택A\n-독서b\n-영독a\n-선택D\n-------------\n준비물\n\n-영어 : 수특,노트 준비\n단어 외우기\n-독서 : 수특 준비\n-------------\n{food}\n-------------\n{add_thing()}")
+        text = (f"{year}년 {month}월 {day}일 금요일\n\n월요일 시간표\n-------------\n-역사b\n-미적\n-역사a\n-선택A\n-독서b\n-영독a\n-선택D\n-------------\n준비물\n-영어 : 수특,노트 준비\n단어 외우기\n-독서 : 수특 준비\n-------------\n{food}\n-------------\n{add}")
         kakao_sendtext(chatroom_name,text)
     else : pass
 
@@ -142,8 +139,6 @@ def main():
     year = now.year
     month = now.month
     day = now.day
-    hour = now.hour
-    min = now.minute
 
     if day_of_week == 0:
         date = "화요일"
@@ -157,14 +152,17 @@ def main():
         date = "월요일"
     else : weekday = False
 
+    food = get_food(year,month,date)
+    add = add_thing()
+
     open_chatroom(chatroom_name)  # 채팅방 열기
     time.sleep(5)
     sendtext(day_of_week,chatroom_name,year,month,day,food,add)    # 메시지 전송
 
-schedule.every().day.at("16:40").do(main)
+# schedule.every().day.at("16:40").do(main)
 
-while weekday:
-    schedule.run_pending()
-    time.sleep(60)
+# while weekday:
+#     schedule.run_pending()
+#     time.sleep(60)
     
-# main()
+main()
