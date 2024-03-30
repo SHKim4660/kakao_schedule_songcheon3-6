@@ -15,13 +15,12 @@ day = now.day
 hour = now.hour
 min = now.minute
 
-weekday = True
 date = ""
 
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-# chatroom_name = '2024 송천고 3학년 6반'
-chatroom_name = '김승환'
+chatroom_name = '2024 송천고 3학년 6반'
+# chatroom_name = '김승환'
 
 
 # # 채팅방에 메시지 전송
@@ -59,14 +58,8 @@ def open_chatroom(chatroom_name):
     time.sleep(1)
 
 
-def get_food(year,month,date):
+def get_food(date,month):
     try:
-        month = str(month).zfill(2)
-        URL = f'https://school.koreacharts.com/school/meals/B000012253/{year}{month}.html'
-        response = requests.get(URL)
-        response.raise_for_status()
-
-        soup = bs4.BeautifulSoup(response.text,"html.parser")
 
         if date == '월요일':
             nextday = now + timedelta(days=3)
@@ -76,6 +69,24 @@ def get_food(year,month,date):
             nextday = now + timedelta(days=1)
 
             nextd = nextday.strftime("%d")
+
+        nexty = nextday.strftime("%Y")
+        nextm = nextday.strftime("%m")
+
+        nextm = str(nextm).zfill(2)
+        month = str(month).zfill(2)
+
+        if nextm != month:
+            foodrelocationslpitstr = "월 초 급식은 지원하지 않습니다 (공개 안됨)"
+
+            return foodrelocationslpitstr
+            
+
+        Url = f'https://school.koreacharts.com/school/meals/B000012253/{nexty}{nextm}.html'
+        response = requests.get(Url)
+        response.raise_for_status()
+
+        soup = bs4.BeautifulSoup(response.text,"html.parser")
 
         text = soup.findAll('tr')
         datesplit = str(text).split("</tr>")
@@ -92,10 +103,14 @@ def get_food(year,month,date):
                             foodrelocationslpit[k] = foodrelocationslpit[k].replace("\n","")
                             foodrelocationslpitstr = f"{foodrelocationslpitstr}\n-{foodrelocationslpit[k]}"
 
+        if foodrelocationslpitstr == "":
+            foodrelocationslpitstr = "월 초 급식은 지원하지 않습니다 (공개 안됨)\n만일 지금이 월 초가 아니라면 오류입니다."
+
         return foodrelocationslpitstr
     except:
         foodrelocationslpitstr = "급식 오류"
         return foodrelocationslpitstr
+
 
 def add_thing():
     try:
@@ -112,7 +127,7 @@ def add_thing():
         strline = "추가 공지사항 오류"
         return strline
 
-def sendtext(day_of_week,chatroom_name,year,month,day,food,add):
+def sendtext(day_of_week,date,chatroom_name,year,month,day,food,add):
     if day_of_week == 0:
         text = (f"{year}년 {month}월 {day}일 월요일\n\n화요일 시간표\n-------------\n-독서a\n-영독a\n-확통\n-선택D\n-선택C\n-선택B\n-스포츠\n-------------\n준비물\n-영어 : 수특,노트 준비\n단어 외우기\n-독서 : 수특 준비\n-------------\n{food}\n-------------\n{add}")
         kakao_sendtext(chatroom_name,text)
@@ -138,7 +153,7 @@ def main():
     day_of_week = now.weekday() #Date Of Week 현재 요일
     year = now.year
     month = now.month
-    day = now.day
+    day = now.day   
 
     if day_of_week == 0:
         date = "화요일"
@@ -150,19 +165,19 @@ def main():
         date = "금요일"
     elif day_of_week == 4:
         date = "월요일"
-    else : weekday = False
+    else : date=""
 
-    food = get_food(year,month,date)
+    food = get_food(date,month)
     add = add_thing()
 
     open_chatroom(chatroom_name)  # 채팅방 열기
     time.sleep(5)
-    sendtext(day_of_week,chatroom_name,year,month,day,food,add)    # 메시지 전송
+    sendtext(day_of_week,date,chatroom_name,year,month,day,food,add)    # 메시지 전송
 
-# schedule.every().day.at("16:40").do(main)
+schedule.every().day.at("16:40").do(main)
 
-# while weekday:
-#     schedule.run_pending()
-#     time.sleep(60)
+while True:
+    schedule.run_pending()
+    time.sleep(60)
     
-main()
+# main()

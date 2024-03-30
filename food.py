@@ -70,8 +70,6 @@ def main():
     month = now.month
     day = now.day   
 
-    print(day_of_week)
-
     if day_of_week == 0:
         date = "화요일"
     elif day_of_week == 1:
