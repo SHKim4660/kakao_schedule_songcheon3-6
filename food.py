@@ -32,11 +32,15 @@ def get_food(date):
         nexty = nextday.strftime("%Y")
         nextm = nextday.strftime("%m")
 
-        nextm = str(nextm).zfill(2)
-        Url = f'https://school.koreacharts.com/school/meals/B000012253/{nexty}{nextm}.html'
-        print(Url)
+        nextmz = str(nextm).zfill(2)
+        nextdl = list(nextd)
+        if nextdl[0] == "0":
+            nextdnonz = nextd.replace("0","")
+            nextd = nextdnonz
+        Url = f'https://school.koreacharts.com/school/meals/B000012253/{nexty}{nextmz}.html'
         response = requests.get(Url)
         response.raise_for_status()
+
 
         soup = bs4.BeautifulSoup(response.text,"html.parser")
 
@@ -45,7 +49,7 @@ def get_food(date):
         foodrelocationslpitstr = "급식"
 
         for i in range(len(datesplit)):
-            if f">{nextd}</td>" in datesplit[i] and f">{date}</td>" in datesplit[i]:
+            if f">{nextd}" in datesplit[i] and f"{date}" in datesplit[i]:
                 foodsplit = datesplit[i].split("<p>")
                 for j in range(len(foodsplit)):
                     if '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' in foodsplit[j]:
@@ -60,6 +64,7 @@ def get_food(date):
         foodrelocationslpitstr = "급식 오류"
         return foodrelocationslpitstr
 
+print()
 
 
 def main():

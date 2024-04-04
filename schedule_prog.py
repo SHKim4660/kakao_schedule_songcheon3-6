@@ -76,13 +76,19 @@ def get_food(date,month):
         nextm = str(nextm).zfill(2)
         month = str(month).zfill(2)
 
+        nextmz = str(nextm).zfill(2)
+        nextdl = list(nextd)
+        if nextdl[0] == "0":
+            nextdnonz = nextd.replace("0","")
+            nextd = nextdnonz
+
         if nextm != month:
             foodrelocationslpitstr = "월 초 급식은 지원하지 않습니다 (공개 안됨)"
 
             return foodrelocationslpitstr
             
 
-        Url = f'https://school.koreacharts.com/school/meals/B000012253/{nexty}{nextm}.html'
+        Url = f'https://school.koreacharts.com/school/meals/B000012253/{nexty}{nextmz}.html'
         response = requests.get(Url)
         response.raise_for_status()
 
@@ -174,10 +180,10 @@ def main():
     time.sleep(5)
     sendtext(day_of_week,date,chatroom_name,year,month,day,food,add)    # 메시지 전송
 
-# schedule.every().day.at("16:40").do(main)
+schedule.every().day.at("16:40").do(main)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(60)
+while True:
+    schedule.run_pending()
+    time.sleep(60)
     
-main()
+# main()
