@@ -103,7 +103,7 @@ def get_food(date,month):
                             foodrelocationslpit[k] = foodrelocationslpit[k].replace("\n","")
                             foodrelocationslpitstr = f"{foodrelocationslpitstr}\n-{foodrelocationslpit[k]}"
 
-        if foodrelocationslpitstr == "":
+        if foodrelocationslpitstr == "급식":
             foodrelocationslpitstr = "월 초 급식은 지원하지 않습니다 (공개 안됨)\n만일 지금이 월 초가 아니라면 오류입니다."
 
         return foodrelocationslpitstr
