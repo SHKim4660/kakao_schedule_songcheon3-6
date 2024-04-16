@@ -19,8 +19,8 @@ date = ""
 
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-chatroom_name = '2024 송천고 3학년 6반'
-# chatroom_name = '김승환'
+# chatroom_name = '2024 송천고 3학년 6반'
+chatroom_name = '김승환'
 
 
 # # 채팅방에 메시지 전송
@@ -109,6 +109,8 @@ def get_food(date,month):
                             foodrelocationslpit[k] = foodrelocationslpit[k].replace("\n","")
                             foodrelocationslpitstr = f"{foodrelocationslpitstr}\n-{foodrelocationslpit[k]}"
 
+        print(foodrelocationslpitstr)
+
         if foodrelocationslpitstr == "급식":
             foodrelocationslpitstr = "월 초 급식은 지원하지 않습니다 (공개 안됨)\n만일 지금이 월 초가 아니라면 오류입니다."
 
@@ -180,10 +182,10 @@ def main():
     time.sleep(5)
     sendtext(day_of_week,date,chatroom_name,year,month,day,food,add)    # 메시지 전송
 
-schedule.every().day.at("16:40").do(main)
+# schedule.every().day.at("16:40").do(main)
 
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(60)
     
-# main()
+main()
