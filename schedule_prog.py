@@ -19,8 +19,8 @@ date = ""
 
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-# chatroom_name = '2024 송천고 3학년 6반'
-chatroom_name = '김승환'
+chatroom_name = '2024 송천고 3학년 6반'
+# chatroom_name = '김승환'
 
 
 # # 채팅방에 메시지 전송
