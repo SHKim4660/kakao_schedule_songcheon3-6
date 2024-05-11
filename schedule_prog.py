@@ -109,7 +109,6 @@ def get_food(date,month):
                             foodrelocationslpit[k] = foodrelocationslpit[k].replace("\n","")
                             foodrelocationslpitstr = f"{foodrelocationslpitstr}\n-{foodrelocationslpit[k]}"
 
-        print(foodrelocationslpitstr)
 
         if foodrelocationslpitstr == "급식":
             foodrelocationslpitstr = "월 초 급식은 지원하지 않습니다 (공개 안됨)\n만일 지금이 월 초가 아니라면 오류입니다."
@@ -153,8 +152,6 @@ def sendtext(day_of_week,date,chatroom_name,year,month,day,food,add):
         kakao_sendtext(chatroom_name,text)
     else : pass
 
-# sendtext()
-
 def main():
     now = datetime.now(timezone('Asia/Seoul'))
 
@@ -182,10 +179,8 @@ def main():
     time.sleep(5)
     sendtext(day_of_week,date,chatroom_name,year,month,day,food,add)    # 메시지 전송
 
-# schedule.every().day.at("16:40").do(main)
+schedule.every().day.at("17:00").do(main)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(60)
-    
-main()
+while True:
+    schedule.run_pending()
+    time.sleep(60)

@@ -21,7 +21,7 @@ def get_food(date):
     try:
 
         if date == '월요일':
-            nextday = now + timedelta(days=3)
+            nextday = now + timedelta(days=2)
 
             nextd = nextday.strftime("%d")
         else:
@@ -69,6 +69,7 @@ print()
 
 def main():
     now = datetime.now(timezone('Asia/Seoul'))
+   
 
     day_of_week = now.weekday() #Date Of Week 현재 요일
     year = now.year
@@ -85,7 +86,7 @@ def main():
         date = "금요일"
     elif day_of_week == 4:
         date = "월요일"
-    else : weekday = False
+    else : date = "월요일"
 
     food = get_food(date)
     print(food)
