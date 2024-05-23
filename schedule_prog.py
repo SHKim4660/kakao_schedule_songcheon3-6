@@ -58,7 +58,7 @@ def open_chatroom(chatroom_name):
     time.sleep(1)
 
 
-def get_food(date,month):
+def get_food(now,date,month):
     try:
 
         if date == '월요일':
@@ -172,7 +172,7 @@ def main():
         date = "월요일"
     else : date=""
 
-    food = get_food(date,month)
+    food = get_food(now,date,month)
     add = add_thing()
 
     open_chatroom(chatroom_name)  # 채팅방 열기
