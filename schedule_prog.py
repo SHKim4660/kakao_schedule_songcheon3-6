@@ -179,8 +179,10 @@ def main():
     time.sleep(5)
     sendtext(day_of_week,date,chatroom_name,year,month,day,food,add)    # 메시지 전송
 
-schedule.every().day.at("17:00").do(main)
+# schedule.every().day.at("17:00").do(main)
 
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(60)
+
+main()
